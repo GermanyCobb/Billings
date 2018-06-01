@@ -1,0 +1,27 @@
+PS C:\Users\PCusername>
+>>> $username = "Username"
+>>> $password = "PW"
+>>> $ie = New-Object -com InternetExplorer.Application
+>>> $ie.visible=$true
+>>> $ie.navigate("URL")
+>>> while($ie.ReadyState -ne 4) {start-sleep -m 100}
+>>> $ie.document.getElementById("pc_login_ASPxFormLayout2_txt_username_I").value= "$usern
+ame"
+>>> $ie.document.getElementById("pc_login_ASPxFormLayout2_TextBoxPassword_I").value = "$p
+assword"
+>>> $ie.document.getElementById("pc_login_ButtonLogin_I").click()
+>>> start-sleep -m 200
+>>> $ie.document.getElementById("pc_menu_ASPxFormLayout1_nbMain_GHE5").click()
+>>> start-sleep -m 200
+>>> $ie.document.getElementById("pc_menu_ASPxFormLayout1_nbMain_I5i0_T").click()
+>>> start-sleep 3
+>>> try{
+>>> $dropdown = $ie.document.getElementById("pc_timesheet_options_ASPxFormLayout2_cb_pane
+l_options_page_control_options_cmb_date_DDD_PW-1")
+>>> ($dropdown | where {$_.innerHTML -eq "DATE"}).Selected = $true
+>>> } catch {
+>>>   Write-Host “Exception Message: $($_.Exception.Message)” -ForegroundColor Red
+>>> }
+>>> $ie.Quit()
+>>> start-sleep 1
+>>> $ie.document.getElementbyID("pc_timesheet_options_ASPxFormLayout2_btn_ok_CD").click()
